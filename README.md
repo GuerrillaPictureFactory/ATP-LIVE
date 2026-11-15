@@ -1,32 +1,27 @@
-# ATP LIVE — Match Centre
+# ATP TODAY — Daily Match List
 
-A small installable progressive web app for ATP match schedules and scores.
+A mobile-first installable ATP singles scoreboard. The front page shows only matches scheduled for the current local day, grouped by tournament and ordered live, upcoming, then finished.
 
 ## Publish with GitHub Pages
 
-1. Sign in to GitHub and create a **new public repository** named `atp-live`.
-2. Upload the four files in this folder (`index.html`, `manifest.webmanifest`, `icon.svg`, `sw.js`) to the repository root.
-3. In the repository, open **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select branch **main**, folder **/(root)**, then Save.
-6. Wait for GitHub Pages to publish. Your app address will be:
-   `https://YOUR-GITHUB-USERNAME.github.io/atp-live/`
+1. Upload `index.html`, `manifest.webmanifest`, `icon.svg`, and `sw.js` to the root of your existing public `atp-live` repository (replace the existing files).
+2. Commit the changes.
+3. GitHub Pages should redeploy automatically. If it does not, open **Settings → Pages** and confirm **Deploy from a branch**, branch `main`, folder `/(root)`.
+4. Open `https://YOUR-GITHUB-USERNAME.github.io/atp-live/` and refresh the page.
 
 ## Install on iPhone
 
-1. Open the published address in Safari.
-2. Tap Share → Add to Home Screen.
-3. Tap Add.
+Open the published address in Safari → Share → Add to Home Screen.
 
 ## Data source
 
-The app requests the local calendar date from ESPN's public ATP scoreboard JSON endpoint and selects the tournament with live matches, or the nearest current/upcoming tournament:
+The app currently uses ESPN's public ATP scoreboard JSON endpoint:
 `https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard`
 
-The endpoint is undocumented and coverage/update frequency can vary. This app is a fan-made scoreboard and is not affiliated with the ATP or ESPN. The ATP Finals is identified as the season-ending championship, not a Masters 1000 event.
+Flashscore does not publish an open developer API. Its terms prohibit scraping, embedding, aggregating or recreating its content without express consent. For that reason this version links directly to Flashscore rather than scraping its data. If you have an authorised Flashscore data API or licensed provider key, the app can be adapted to use it.
 
-## Notes
+The ESPN endpoint is undocumented and coverage/update frequency can vary. This is an independent fan-made app, not affiliated with ATP, ESPN or Flashscore.
 
-- Match list refreshes every 30 seconds while the page is visible.
-- The page shell can be cached for repeat visits; live scores still require a network connection.
-- GitHub Pages hosts the static app. It does not proxy or guarantee the data feed.
+- Requests today's local date and filters the list to today's matches.
+- Refreshes every 30 seconds while the page is visible.
+- The app shell can be cached; live scores still require an internet connection.

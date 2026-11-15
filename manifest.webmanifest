@@ -1,18 +1,1 @@
-{
-  "name": "ATP LIVE \u2014 Match Centre",
-  "short_name": "ATP LIVE",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#071b2d",
-  "theme_color": "#071b2d",
-  "description": "Live ATP scores, current matches and upcoming fixtures.",
-  "icons": [
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
-}
+{"name":"ATP Today — Live Scores","short_name":"ATP Today","start_url":"./","scope":"./","display":"standalone","background_color":"#081b2b","theme_color":"#081b2b","icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}

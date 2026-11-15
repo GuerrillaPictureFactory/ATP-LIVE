@@ -1,126 +1,39 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#071b2d">
-<meta name="description" content="Live ATP tennis scores, current matches and upcoming fixtures.">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" href="./icon.svg" type="image/svg+xml">
-<title>ATP LIVE — Match Centre</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071b2d"><meta name="description" content="Today's ATP tennis matches and live scores.">
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
+<title>ATP TODAY — Live Scores</title>
 <style>
-:root{color-scheme:dark;--bg:#071b2d;--panel:#102a40;--panel2:#15364e;--ink:#f4f8fb;--muted:#9eb3c4;--lime:#b9f36b;--blue:#5cc8e8;--line:#25445b;--red:#ff8588}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 85% -10%,#17445b 0,transparent 40%),var(--bg);color:var(--ink);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.wrap{max-width:850px;margin:auto;padding:22px 16px calc(40px + env(safe-area-inset-bottom))}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:11px}.ball{width:39px;height:39px;border-radius:50%;background:var(--lime);display:grid;place-items:center;color:#132b21;font-size:21px}.brand b{font-size:19px;letter-spacing:1.5px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px}.livepill{border:1px solid #38604c;color:var(--lime);border-radius:99px;padding:6px 10px;font-size:11px;letter-spacing:1px}.livepill:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--lime);margin-right:7px;box-shadow:0 0 9px var(--lime)}
-h1{font-size:clamp(29px,6vw,43px);line-height:1.06;margin:0 0 7px;letter-spacing:-1.3px}.sub{color:var(--muted);margin:0 0 22px}
-.eventbar{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:18px}.eventmeta{display:flex;align-items:center;justify-content:space-between;gap:10px}.eventname{font-size:18px;font-weight:750}.tag{font-size:10px;letter-spacing:1px;border-radius:5px;padding:4px 7px;background:#28495e;color:#c6d9e6;white-space:nowrap}.tag.final{background:#3b3a26;color:#e5e49a}.eventdetail{font-size:12px;color:var(--muted);margin-top:4px}
-.tabs{display:flex;gap:7px;margin:18px 0;overflow-x:auto;padding-bottom:3px}.tabs button,.action{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:9px 13px;border-radius:9px;font:inherit;cursor:pointer;white-space:nowrap}.tabs button.active{background:var(--lime);color:#13251d;border-color:var(--lime);font-weight:700}
-.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 10px}.sectionhead h2{font-size:13px;text-transform:uppercase;letter-spacing:1.4px;margin:0;color:#c6d6e1}.sectionhead span{font-size:11px;color:var(--muted)}
-.match{background:linear-gradient(135deg,var(--panel),#0d2438);border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:10px}.match.live{border-color:#719d4e;box-shadow:inset 3px 0 var(--lime)}
-.matchtop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;color:var(--muted);font-size:11px}.status{color:var(--lime);font-weight:700;letter-spacing:.8px}.player{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:7px 0}.playername{font-weight:650}.country{color:var(--muted);font-size:11px;margin-left:7px}.score{display:flex;gap:14px;font-variant-numeric:tabular-nums;font-weight:700;font-size:16px}.score span{min-width:12px;text-align:center}.winner .playername{color:var(--lime)}
-.empty,.loader{background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:25px;text-align:center;color:var(--muted)}.foot{color:var(--muted);font-size:11px;text-align:center;margin-top:25px}.action{color:var(--blue);background:none}.error{color:#ffc2c4;font-size:12px;margin:10px 0;overflow-wrap:anywhere}.toolbar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px}
-@media(min-width:600px){.wrap{padding-top:34px}.match{padding:18px 20px}}
-</style>
-</head>
+:root{color-scheme:dark;--bg:#081b2b;--panel:#102b40;--line:#25465c;--ink:#f5f8fb;--muted:#9db2c2;--lime:#c3f36b;--blue:#72d5ee;--red:#ff8588}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:720px;margin:auto;padding:20px 14px calc(34px + env(safe-area-inset-bottom))}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{font-weight:850;letter-spacing:1.8px;font-size:18px}.brand span{color:var(--lime)}.liveflag{font-size:10px;letter-spacing:1px;color:var(--lime);border:1px solid #46623b;border-radius:20px;padding:5px 9px}
+h1{font-size:30px;line-height:1.1;letter-spacing:-.8px;margin:0 0 4px}.date{color:var(--muted);font-size:13px;margin-bottom:20px}.summary{display:flex;gap:8px;margin-bottom:18px}.pill{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:12px;color:var(--muted)}.pill b{color:var(--ink);margin-right:4px}
+.tournament{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);font-weight:750;margin:22px 2px 9px}.match{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin-bottom:8px}.match.live{border-color:#729e4a;box-shadow:inset 3px 0 var(--lime)}.matchhead{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;margin-bottom:8px}.status{font-weight:800;color:var(--lime);letter-spacing:.6px}.status.final{color:#a9b7c2}.player{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:5px 0}.name{font-weight:650;overflow-wrap:anywhere}.winner .name{color:var(--lime)}.score{display:flex;gap:12px;font-weight:750;font-variant-numeric:tabular-nums}.score span{min-width:12px;text-align:center}.empty{border:1px dashed var(--line);border-radius:13px;padding:27px 18px;text-align:center;color:var(--muted);background:var(--panel)}.tools{display:flex;justify-content:center;gap:16px;margin:20px 0 8px}.tools button,.tools a{background:none;border:0;color:var(--blue);font:inherit;font-size:12px;text-decoration:none;padding:8px;cursor:pointer}.updated{text-align:center;color:var(--muted);font-size:10px;margin-top:12px}.error{color:#ffb5b7;font-size:12px;text-align:center;margin-top:8px}.note{text-align:center;color:#70899b;font-size:10px;margin-top:22px}
+@media(min-width:560px){.wrap{padding-top:30px}.match{padding:15px 17px}}
+</style></head>
 <body><div class="wrap">
-<header class="top"><div class="brand"><div class="ball">◒</div><div><b>ATP LIVE</b><small>MATCH CENTRE</small></div></div><div class="livepill">LIVE SCORES</div></header>
-<h1>Follow the tour.</h1><p class="sub">Current match, next on court, and today's results.</p>
-<section class="eventbar"><div class="eventmeta"><div class="eventname" id="eventName">Finding today's ATP event…</div><span class="tag" id="eventTag">ATP TOUR</span></div><div class="eventdetail" id="eventDetail">Scores and schedules · local time</div></section>
-<div class="tabs" role="tablist"><button class="active" data-filter="all">All matches</button><button data-filter="live">Live</button><button data-filter="upcoming">Upcoming</button><button data-filter="completed">Results</button></div>
-<div class="sectionhead"><h2 id="sectionTitle">Current / next match</h2><span id="updated">Connecting…</span></div>
-<main id="matches"><div class="loader">Loading ATP match data…</div></main>
-<div class="toolbar"><button class="action" id="refresh">Refresh now ↻</button><button class="action" id="install" hidden>Install app</button></div>
-<div class="error" id="error" role="status"></div>
-<div class="foot">Refreshes every 30 seconds while the page is open.<br>ATP Finals is included as the season-ending championship (not technically a Masters 1000).<br>Scores supplied by ESPN's public tennis scoreboard feed; coverage may vary.</div>
+<header><div class="brand"><span>◒</span> ATP TODAY</div><div class="liveflag">● LIVE SCORES</div></header>
+<h1>Today's matches</h1><div class="date" id="dateLabel">Loading today's schedule…</div>
+<div class="summary"><div class="pill"><b id="liveCount">—</b>Live</div><div class="pill"><b id="upcomingCount">—</b>Upcoming</div><div class="pill"><b id="finishedCount">—</b>Finished</div></div>
+<main id="matches"><div class="empty">Loading today's ATP matches…</div></main>
+<div class="tools"><button id="refresh">Refresh ↻</button><a href="https://www.flashscore.com/tennis/atp-singles/" target="_blank" rel="noopener">Open Flashscore ↗</a><button id="install" hidden>Install app</button></div>
+<div class="updated" id="updated">Connecting to scoreboard…</div><div class="error" id="error"></div>
+<div class="note">Today's ATP singles schedule · refreshes every 30 seconds · data currently supplied by ESPN. Flashscore link opens its live tennis page.</div>
 </div>
 <script>
-const API='https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard';
-let matches=[],filter='all',deferredInstall=null;
-const $=id=>document.getElementById(id);
+const API='https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard';let matches=[],deferredInstall=null;const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function matchStatus(c){
- const t=c.status?.type||{},s=(t.name||t.description||t.detail||'').toLowerCase();
- if(t.completed||/final|complete|retired|walkover/.test(s))return 'completed';
- if(/progress|live|in play|playing/.test(s))return 'live';
- return 'upcoming';
-}
-function scoreSets(p){
- if(Array.isArray(p.linescores))return p.linescores.map(x=>x.displayValue??x.value??'–');
- if(p.score!==undefined&&p.score!==null)return [p.score];
- return [];
-}
-function mapMatch(event,c){
- const ps=c.competitors||[],a=ps[0]||{},b=ps[1]||{};
- return {id:c.id||event.id+'-'+(c.order||Math.random()),event:event.name||event.shortName||'ATP Tour',
- round:c.round?.displayName||c.round?.name||c.notes?.[0]?.text||c.type?.text||'',
- date:c.date||event.date||event.startDate,status:matchStatus(c),
- clock:c.status?.displayClock||'',venue:c.venue?.fullName||'',
- a:{name:a.athlete?.displayName||a.athlete?.fullName||a.displayName||a.name||'TBC',country:a.athlete?.flag?.alt||a.athlete?.country||a.country||'',sets:scoreSets(a),winner:!!a.winner},
- b:{name:b.athlete?.displayName||b.athlete?.fullName||b.displayName||b.name||'TBC',country:b.athlete?.flag?.alt||b.athlete?.country||b.country||'',sets:scoreSets(b),winner:!!b.winner}};
-}
-function allFrom(data){
- const out=[];
- for(const ev of data.events||[]){
-  for(const group of ev.groupings||[]){
-   for(const c of group.competitions||[])out.push(mapMatch(ev,c));
-  }
-  for(const c of ev.competitions||[])out.push(mapMatch(ev,c));
-  if(!ev.groupings&&!ev.competitions&&ev.competitors)out.push(mapMatch(ev,ev));
- }
- const seen=new Set();return out.filter(m=>m.a.name!=='TBC'&&m.b.name!=='TBC'&&!seen.has(m.id)&&seen.add(m.id));
-}
-function localTime(v){if(!v)return 'Time TBC';const d=new Date(v);return isNaN(d)?'Time TBC':d.toLocaleString([],{weekday:'short',hour:'2-digit',minute:'2-digit'});}
-function score(p){return `<div class="score">${(p.sets.length?p.sets:['–']).map(x=>`<span>${esc(x)}</span>`).join('')}</div>`;}
-function card(m){const label=m.status==='live'?'LIVE':m.status==='completed'?'FINAL':localTime(m.date);return `<article class="match ${m.status==='live'?'live':''}"><div class="matchtop"><span>${esc(m.round||m.venue||'ATP TOUR')}</span><span class="${m.status==='live'?'status':''}">${esc(label)}${m.status==='live'&&m.clock?' · '+esc(m.clock):''}</span></div><div class="player ${m.a.winner?'winner':''}"><div><span class="playername">${esc(m.a.name)}</span><span class="country">${esc(m.a.country)}</span></div>${score(m.a)}</div><div class="player ${m.b.winner?'winner':''}"><div><span class="playername">${esc(m.b.name)}</span><span class="country">${esc(m.b.country)}</span></div>${score(m.b)}</div></article>`;}
-function render(){
- const live=matches.filter(m=>m.status==='live');
- const upcoming=matches.filter(m=>m.status==='upcoming').sort((a,b)=>new Date(a.date)-new Date(b.date));
- let list=filter==='all'?matches:matches.filter(m=>m.status===filter);
- $('sectionTitle').textContent=filter==='all'?'Current / next match':filter==='live'?'Live matches':filter==='upcoming'?'Upcoming matches':'Completed matches';
- if(filter==='all'){
-  const first=live[0]||upcoming[0],rest=first?list.filter(m=>m.id!==first.id):list;
-  $('matches').innerHTML=(first?card(first):'')+(rest.length?`<div class="sectionhead"><h2>${first?'More matches':'Today’s matches'}</h2><span>${rest.length} listed</span></div>`+rest.map(card).join(''):'')||'<div class="empty">No ATP matches are listed at the moment.</div>';
- }else $('matches').innerHTML=list.length?list.map(card).join(''):'<div class="empty">No matches in this category right now.</div>';
-}
-function localYmd(){
- const parts=new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
- const v=Object.fromEntries(parts.map(p=>[p.type,p.value]));return v.year+v.month+v.day;
-}
-async function load(){
- $('error').textContent='';$('updated').textContent='Updating…';
- try{
-  const res=await fetch(API+'?dates='+localYmd(),{cache:'no-store',headers:{Accept:'application/json'}});
-  if(!res.ok)throw new Error('Score feed returned HTTP '+res.status);
-  const data=await res.json();
-  const events=data.events||[];
-  const eventRows=events.map(ev=>({event:ev,rows:(ev.groupings||[]).flatMap(g=>(g.competitions||[]).map(c=>mapMatch(ev,c))).concat((ev.competitions||[]).map(c=>mapMatch(ev,c)))}))
-    .filter(x=>x.rows.length);
-  const now=Date.now();
-  const isCurrent=m=>m.status==='live'||(m.date&&new Date(m.date).getTime()>=now-6*60*60*1000);
-  let chosen=eventRows.find(x=>x.rows.some(m=>m.status==='live'))||
-    eventRows.find(x=>x.rows.some(isCurrent))||eventRows[0];
-  if(!chosen)throw new Error('No ATP matches were listed for your local date. The scoreboard provider may not have published today’s schedule yet.');
-  matches=chosen.rows;
-  const name=chosen.event.name||matches[0]?.event||'ATP Tour';
-  const isFinal=/finals|nitto/i.test(name);
-  $('eventName').textContent=name;
-  $('eventTag').textContent=isFinal?'SEASON FINALE':'ATP TOUR';
-  $('eventTag').className='tag'+(isFinal?' final':'');
-  $('eventDetail').textContent=(isFinal?'Season-ending championship · ':'')+
-    new Date().toLocaleDateString([],{weekday:'long',day:'numeric',month:'long'})+' · Local time';
-  render();$('updated').textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
- }catch(e){
-  $('updated').textContent='Feed unavailable';
-  $('error').textContent='Could not load scores: '+e.message+'. Try Refresh, or check your connection.';
-  if(!matches.length)$('matches').innerHTML='<div class="empty">Live scores are temporarily unavailable. Please try again shortly.</div>';
- }
-}
-document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('active',x===b));render();}));
-$('refresh').addEventListener('click',load);
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('install').hidden=false;});
-$('install').addEventListener('click',async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('install').hidden=true;});
-if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
-load();setInterval(()=>{if(document.visibilityState==='visible')load();},30000);
-</script>
-</body></html>
+function statusOf(c){const t=c.status?.type||{},s=(t.name||t.description||t.detail||'').toLowerCase();if(t.completed||/final|complete|retired|walkover/.test(s))return'completed';if(/progress|live|in play|playing/.test(s))return'live';return'upcoming'}
+function sets(p){if(Array.isArray(p.linescores))return p.linescores.map(x=>x.displayValue??x.value??'–');if(p.score!==undefined&&p.score!==null)return[p.score];return[]}
+function localDay(v){if(!v)return'';const d=new Date(v);if(isNaN(d))return'';return new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit'}).format(d)}
+function ymd(){const p=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).map(x=>[x.type,x.value]));return p.year+p.month+p.day}
+function allMatches(data){const out=[],seen=new Set();for(const ev of data.events||[]){const comps=[];for(const g of ev.groupings||[])for(const c of g.competitions||[])comps.push(c);for(const c of ev.competitions||[])comps.push(c);if(!comps.length&&ev.competitors)comps.push(ev);for(const c of comps){const ps=c.competitors||[],a=ps[0]||{},b=ps[1]||{},date=c.date||ev.date||ev.startDate,id=c.id||ev.id+'-'+(c.order||comps.indexOf(c));if(seen.has(id)||!a.athlete&&!a.name||!b.athlete&&!b.name)continue;seen.add(id);out.push({id,event:ev.name||ev.shortName||'ATP Tour',round:c.round?.displayName||c.round?.name||c.notes?.[0]?.text||'',date,status:statusOf(c),clock:c.status?.displayClock||'',a:{name:a.athlete?.displayName||a.athlete?.fullName||a.displayName||a.name||'TBC',sets:sets(a),winner:!!a.winner},b:{name:b.athlete?.displayName||b.athlete?.fullName||b.displayName||b.name||'TBC',sets:sets(b),winner:!!b.winner}})}}return out}
+function timeLabel(m){if(m.status==='live')return 'LIVE'+(m.clock?' · '+m.clock:'');if(m.status==='completed')return'FINISHED';if(!m.date)return'TIME TBC';return new Date(m.date).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+function score(p){return `<div class="score">${(p.sets.length?p.sets:['–']).map(x=>`<span>${esc(x)}</span>`).join('')}</div>`}
+function card(m){return `<article class="match ${m.status==='live'?'live':''}"><div class="matchhead"><span>${esc(m.round||'ATP singles')}</span><span class="status ${m.status==='completed'?'final':''}">${esc(timeLabel(m))}</span></div><div class="player ${m.a.winner?'winner':''}"><span class="name">${esc(m.a.name)}</span>${score(m.a)}</div><div class="player ${m.b.winner?'winner':''}"><span class="name">${esc(m.b.name)}</span>${score(m.b)}</div></article>`}
+function render(){const order={live:0,upcoming:1,completed:2};matches.sort((a,b)=>order[a.status]-order[b.status]||new Date(a.date||0)-new Date(b.date||0));$('liveCount').textContent=matches.filter(x=>x.status==='live').length;$('upcomingCount').textContent=matches.filter(x=>x.status==='upcoming').length;$('finishedCount').textContent=matches.filter(x=>x.status==='completed').length;if(!matches.length){$('matches').innerHTML='<div class="empty">No ATP singles matches are scheduled for today.</div>';return}let html='',last='';for(const m of matches){if(m.event!==last){last=m.event;html+=`<div class="tournament">${esc(last)}</div>`}html+=card(m)}$('matches').innerHTML=html}
+async function load(){$('error').textContent='';$('updated').textContent='Updating…';try{const r=await fetch(API+'?dates='+ymd(),{cache:'no-store',headers:{Accept:'application/json'}});if(!r.ok)throw Error('Score feed returned HTTP '+r.status);const data=await r.json();const today=localDay(new Date());matches=allMatches(data).filter(m=>!m.date||localDay(m.date)===today);render();$('dateLabel').textContent=new Date().toLocaleDateString([],{weekday:'long',day:'numeric',month:'long',year:'numeric'});$('updated').textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}catch(e){$('updated').textContent='Score feed unavailable';$('error').textContent='Could not update scores: '+e.message;if(!matches.length)$('matches').innerHTML='<div class="empty">Scores are temporarily unavailable. Please try again.</div>'}}
+$('refresh').addEventListener('click',load);window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('install').hidden=false});$('install').addEventListener('click',async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('install').hidden=true});if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});$('dateLabel').textContent=new Date().toLocaleDateString([],{weekday:'long',day:'numeric',month:'long',year:'numeric'});load();setInterval(()=>{if(document.visibilityState==='visible')load()},30000);
+</script></body></html>
