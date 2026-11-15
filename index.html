@@ -23,7 +23,7 @@ h1{font-size:30px;line-height:1.1;letter-spacing:-.8px;margin:0 0 4px}.date{colo
 <div class="note">Today's ATP singles schedule · refreshes every 30 seconds · data currently supplied by ESPN. Flashscore link opens its live tennis page.</div>
 </div>
 <script>
-const API='https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard';let matches=[],deferredInstall=null;const $=id=>document.getElementById(id);
+const API='https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard';const REFRESH_MS=10000;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function statusOf(c){const t=c.status?.type||{},s=(t.name||t.description||t.detail||'').toLowerCase();if(t.completed||/final|complete|retired|walkover/.test(s))return'completed';if(/progress|live|in play|playing/.test(s))return'live';return'upcoming'}
 function sets(p){if(Array.isArray(p.linescores))return p.linescores.map(x=>x.displayValue??x.value??'–');if(p.score!==undefined&&p.score!==null)return[p.score];return[]}
