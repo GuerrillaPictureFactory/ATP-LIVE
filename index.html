@@ -1,39 +1,571 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#071b2d"><meta name="description" content="Today's ATP tennis matches and live scores.">
-<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
-<title>ATP TODAY — Live Scores</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#081b2b">
+<title>ATP TODAY - Live Scores</title>
 <style>
-:root{color-scheme:dark;--bg:#081b2b;--panel:#102b40;--line:#25465c;--ink:#f5f8fb;--muted:#9db2c2;--lime:#c3f36b;--blue:#72d5ee;--red:#ff8588}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:720px;margin:auto;padding:20px 14px calc(34px + env(safe-area-inset-bottom))}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{font-weight:850;letter-spacing:1.8px;font-size:18px}.brand span{color:var(--lime)}.liveflag{font-size:10px;letter-spacing:1px;color:var(--lime);border:1px solid #46623b;border-radius:20px;padding:5px 9px}
-h1{font-size:30px;line-height:1.1;letter-spacing:-.8px;margin:0 0 4px}.date{color:var(--muted);font-size:13px;margin-bottom:20px}.summary{display:flex;gap:8px;margin-bottom:18px}.pill{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:12px;color:var(--muted)}.pill b{color:var(--ink);margin-right:4px}
-.tournament{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);font-weight:750;margin:22px 2px 9px}.match{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin-bottom:8px}.match.live{border-color:#729e4a;box-shadow:inset 3px 0 var(--lime)}.matchhead{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;margin-bottom:8px}.status{font-weight:800;color:var(--lime);letter-spacing:.6px}.status.final{color:#a9b7c2}.player{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;padding:5px 0}.name{font-weight:650;overflow-wrap:anywhere}.winner .name{color:var(--lime)}.score{display:flex;gap:12px;font-weight:750;font-variant-numeric:tabular-nums}.score span{min-width:12px;text-align:center}.empty{border:1px dashed var(--line);border-radius:13px;padding:27px 18px;text-align:center;color:var(--muted);background:var(--panel)}.tools{display:flex;justify-content:center;gap:16px;margin:20px 0 8px}.tools button,.tools a{background:none;border:0;color:var(--blue);font:inherit;font-size:12px;text-decoration:none;padding:8px;cursor:pointer}.updated{text-align:center;color:var(--muted);font-size:10px;margin-top:12px}.error{color:#ffb5b7;font-size:12px;text-align:center;margin-top:8px}.note{text-align:center;color:#70899b;font-size:10px;margin-top:22px}
-@media(min-width:560px){.wrap{padding-top:30px}.match{padding:15px 17px}}
-</style></head>
-<body><div class="wrap">
-<header><div class="brand"><span>◒</span> ATP TODAY</div><div class="liveflag">● LIVE SCORES</div></header>
-<h1>Today's matches</h1><div class="date" id="dateLabel">Loading today's schedule…</div>
-<div class="summary"><div class="pill"><b id="liveCount">—</b>Live</div><div class="pill"><b id="upcomingCount">—</b>Upcoming</div><div class="pill"><b id="finishedCount">—</b>Finished</div></div>
-<main id="matches"><div class="empty">Loading today's ATP matches…</div></main>
-<div class="tools"><button id="refresh">Refresh ↻</button><a href="https://www.flashscore.com/tennis/atp-singles/" target="_blank" rel="noopener">Open Flashscore ↗</a><button id="install" hidden>Install app</button></div>
-<div class="updated" id="updated">Connecting to scoreboard…</div><div class="error" id="error"></div>
-<div class="note">Today's ATP singles schedule · refreshes every 30 seconds · data currently supplied by ESPN. Flashscore link opens its live tennis page.</div>
+:root {
+  --bg:#081b2b;
+  --panel:#102b40;
+  --line:#25465c;
+  --ink:#f5f8fb;
+  --muted:#9db2c2;
+  --lime:#c3f36b;
+  --blue:#72d5ee;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+.wrap {
+  max-width:720px;
+  margin:auto;
+  padding:22px 14px 40px;
+}
+header {
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:26px;
+}
+.brand {
+  font-weight:850;
+  letter-spacing:2px;
+  font-size:19px;
+}
+.brand span { color:var(--lime); }
+.liveflag {
+  color:var(--lime);
+  font-size:11px;
+  border:1px solid #46623b;
+  border-radius:20px;
+  padding:6px 10px;
+}
+h1 {
+  font-size:30px;
+  margin:0 0 5px;
+}
+.date {
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:20px;
+}
+.summary {
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+}
+.pill {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:9px 11px;
+  color:var(--muted);
+  font-size:12px;
+}
+.pill b { color:var(--ink); }
+.tournament {
+  color:var(--blue);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:1px;
+  margin:22px 2px 9px;
+  text-transform:uppercase;
+}
+.match {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:9px;
+}
+.match.live {
+  border-color:#729e4a;
+  border-left:3px solid var(--lime);
+}
+.matchhead {
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:9px;
+}
+.status {
+  color:var(--lime);
+  font-weight:800;
+}
+.status.final { color:var(--muted); }
+.player {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  padding:6px 0;
+}
+.player.winner .name { color:var(--lime); }
+.name {
+  font-weight:650;
+  overflow-wrap:anywhere;
+}
+.score {
+  display:flex;
+  gap:12px;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+.score span {
+  min-width:12px;
+  text-align:center;
+}
+.game-score {
+  border-top:1px solid var(--line);
+  margin-top:8px;
+  padding-top:9px;
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:12px;
+}
+.game-score b {
+  color:var(--lime);
+  font-size:14px;
+}
+.empty {
+  background:var(--panel);
+  border:1px dashed var(--line);
+  border-radius:13px;
+  padding:28px 18px;
+  text-align:center;
+  color:var(--muted);
+}
+.tools {
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin:22px 0;
+}
+button,.tools a {
+  background:none;
+  border:0;
+  color:var(--blue);
+  font:inherit;
+  font-size:13px;
+  padding:8px;
+  cursor:pointer;
+  text-decoration:none;
+}
+button:disabled { opacity:.5; }
+.updated {
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+}
+.error {
+  text-align:center;
+  color:#ff9999;
+  font-size:12px;
+  margin-top:9px;
+}
+.note {
+  text-align:center;
+  color:#70899b;
+  font-size:10px;
+  margin-top:24px;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand"><span>◒</span> ATP TODAY</div>
+  <div class="liveflag">● LIVE SCORES</div>
+</header>
+
+<h1>Today's matches</h1>
+<div class="date" id="dateLabel"></div>
+
+<div class="summary">
+  <div class="pill"><b id="liveCount">0</b> Live</div>
+  <div class="pill"><b id="upcomingCount">0</b> Upcoming</div>
+  <div class="pill"><b id="finishedCount">0</b> Finished</div>
 </div>
+
+<main id="matches">
+  <div class="empty">Loading today's matches...</div>
+</main>
+
+<div class="tools">
+  <button id="refresh">Refresh now ↻</button>
+  <a href="https://www.flashscore.com/tennis/atp-singles/"
+     target="_blank" rel="noopener">Flashscore ↗</a>
+</div>
+
+<div class="updated" id="updated">Connecting...</div>
+<div class="error" id="error"></div>
+
+<div class="note">
+  Today's ATP singles · Automatic refresh every 15 seconds.
+  Live game points depend on data availability.
+</div>
+
+</div>
+
 <script>
-const API='https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard';const REFRESH_MS=10000;
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function statusOf(c){const t=c.status?.type||{},s=(t.name||t.description||t.detail||'').toLowerCase();if(t.completed||/final|complete|retired|walkover/.test(s))return'completed';if(/progress|live|in play|playing/.test(s))return'live';return'upcoming'}
-function sets(p){if(Array.isArray(p.linescores))return p.linescores.map(x=>x.displayValue??x.value??'–');if(p.score!==undefined&&p.score!==null)return[p.score];return[]}
-function localDay(v){if(!v)return'';const d=new Date(v);if(isNaN(d))return'';return new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit'}).format(d)}
-function ymd(){const p=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).map(x=>[x.type,x.value]));return p.year+p.month+p.day}
-function allMatches(data){const out=[],seen=new Set();for(const ev of data.events||[]){const comps=[];for(const g of ev.groupings||[])for(const c of g.competitions||[])comps.push(c);for(const c of ev.competitions||[])comps.push(c);if(!comps.length&&ev.competitors)comps.push(ev);for(const c of comps){const ps=c.competitors||[],a=ps[0]||{},b=ps[1]||{},date=c.date||ev.date||ev.startDate,id=c.id||ev.id+'-'+(c.order||comps.indexOf(c));if(seen.has(id)||!a.athlete&&!a.name||!b.athlete&&!b.name)continue;seen.add(id);out.push({id,event:ev.name||ev.shortName||'ATP Tour',round:c.round?.displayName||c.round?.name||c.notes?.[0]?.text||'',date,status:statusOf(c),clock:c.status?.displayClock||'',a:{name:a.athlete?.displayName||a.athlete?.fullName||a.displayName||a.name||'TBC',sets:sets(a),winner:!!a.winner},b:{name:b.athlete?.displayName||b.athlete?.fullName||b.displayName||b.name||'TBC',sets:sets(b),winner:!!b.winner}})}}return out}
-function timeLabel(m){if(m.status==='live')return 'LIVE'+(m.clock?' · '+m.clock:'');if(m.status==='completed')return'FINISHED';if(!m.date)return'TIME TBC';return new Date(m.date).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
-function score(p){return `<div class="score">${(p.sets.length?p.sets:['–']).map(x=>`<span>${esc(x)}</span>`).join('')}</div>`}
-function card(m){return `<article class="match ${m.status==='live'?'live':''}"><div class="matchhead"><span>${esc(m.round||'ATP singles')}</span><span class="status ${m.status==='completed'?'final':''}">${esc(timeLabel(m))}</span></div><div class="player ${m.a.winner?'winner':''}"><span class="name">${esc(m.a.name)}</span>${score(m.a)}</div><div class="player ${m.b.winner?'winner':''}"><span class="name">${esc(m.b.name)}</span>${score(m.b)}</div></article>`}
-function render(){const order={live:0,upcoming:1,completed:2};matches.sort((a,b)=>order[a.status]-order[b.status]||new Date(a.date||0)-new Date(b.date||0));$('liveCount').textContent=matches.filter(x=>x.status==='live').length;$('upcomingCount').textContent=matches.filter(x=>x.status==='upcoming').length;$('finishedCount').textContent=matches.filter(x=>x.status==='completed').length;if(!matches.length){$('matches').innerHTML='<div class="empty">No ATP singles matches are scheduled for today.</div>';return}let html='',last='';for(const m of matches){if(m.event!==last){last=m.event;html+=`<div class="tournament">${esc(last)}</div>`}html+=card(m)}$('matches').innerHTML=html}
-async function load(){$('error').textContent='';$('updated').textContent='Updating…';try{const r=await fetch(API+'?dates='+ymd(),{cache:'no-store',headers:{Accept:'application/json'}});if(!r.ok)throw Error('Score feed returned HTTP '+r.status);const data=await r.json();const today=localDay(new Date());matches=allMatches(data).filter(m=>!m.date||localDay(m.date)===today);render();$('dateLabel').textContent=new Date().toLocaleDateString([],{weekday:'long',day:'numeric',month:'long',year:'numeric'});$('updated').textContent='Updated '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}catch(e){$('updated').textContent='Score feed unavailable';$('error').textContent='Could not update scores: '+e.message;if(!matches.length)$('matches').innerHTML='<div class="empty">Scores are temporarily unavailable. Please try again.</div>'}}
-$('refresh').addEventListener('click',load);window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('install').hidden=false});$('install').addEventListener('click',async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('install').hidden=true});if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});$('dateLabel').textContent=new Date().toLocaleDateString([],{weekday:'long',day:'numeric',month:'long',year:'numeric'});load();setInterval(()=>{if(document.visibilityState==='visible')load()},30000);
-</script></body></html>
+"use strict";
+
+const API =
+"https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard";
+
+const REFRESH_MS = 15000;
+
+const $ = id => document.getElementById(id);
+
+let matches = [];
+let loading = false;
+let lastUpdated = 0;
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[c]);
+}
+
+function todayKey() {
+  const p = Object.fromEntries(
+    new Intl.DateTimeFormat("en-CA", {
+      year:"numeric", month:"2-digit", day:"2-digit"
+    }).formatToParts(new Date()).map(x => [x.type,x.value])
+  );
+  return `${p.year}-${p.month}-${p.day}`;
+}
+
+function dateKey(value) {
+  if (!value) return "";
+  const d = new Date(value);
+  if (isNaN(d)) return "";
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+function getStatus(c) {
+  const t = c.status?.type || {};
+  const s = (
+    (t.name || "") + " " +
+    (t.description || "") + " " +
+    (t.detail || "")
+  ).toLowerCase();
+
+  if (t.completed ||
+      /final|complete|retired|walkover/.test(s)) {
+    return "completed";
+  }
+
+  if (/progress|live|in play|playing/.test(s)) {
+    return "live";
+  }
+
+  return "upcoming";
+}
+
+function getSets(player) {
+  if (Array.isArray(player.linescores)) {
+    return player.linescores.map(x =>
+      x.displayValue ?? x.value ?? "–"
+    );
+  }
+  if (player.score != null) return [player.score];
+  return [];
+}
+
+function getGamePoints(c) {
+  const candidates = [
+    c.gameScore,
+    c.game_score,
+    c.currentGameScore,
+    c.current_game_score,
+    c.currentGame?.score,
+    c.currentGame?.points
+  ];
+
+  for (const value of candidates) {
+    if (typeof value === "string" &&
+        /^(0|15|30|40|A|AD)\s*[-:]\s*(0|15|30|40|A|AD)$/i.test(value.trim())) {
+      return value.trim().replace(":", "-");
+    }
+  }
+
+  return "";
+}
+
+function parseMatches(data) {
+  const result = [];
+  const seen = new Set();
+
+  for (const event of data.events || []) {
+    let competitions = [];
+
+    for (const group of event.groupings || []) {
+      competitions.push(...(group.competitions || []));
+    }
+
+    competitions.push(...(event.competitions || []));
+
+    for (const c of competitions) {
+      const players = c.competitors || [];
+      if (players.length < 2) continue;
+
+      const a = players[0];
+      const b = players[1];
+
+      const date = c.date || event.date;
+      const id = c.id || `${event.id}-${competitions.indexOf(c)}`;
+
+      if (seen.has(id)) continue;
+      seen.add(id);
+
+      const nameA =
+        a.athlete?.displayName ||
+        a.athlete?.fullName ||
+        a.displayName || a.name;
+
+      const nameB =
+        b.athlete?.displayName ||
+        b.athlete?.fullName ||
+        b.displayName || b.name;
+
+      if (!nameA || !nameB) continue;
+
+      result.push({
+        id,
+        event: event.name || event.shortName || "ATP Tour",
+        round: c.round?.displayName || c.round?.name || "",
+        date,
+        status: getStatus(c),
+        game: getGamePoints(c),
+        a: {
+          name:nameA,
+          sets:getSets(a),
+          winner:!!a.winner
+        },
+        b: {
+          name:nameB,
+          sets:getSets(b),
+          winner:!!b.winner
+        }
+      });
+    }
+  }
+
+  return result;
+}
+
+function timeLabel(m) {
+  if (m.status === "live") return "● LIVE";
+  if (m.status === "completed") return "FINISHED";
+
+  if (!m.date) return "TIME TBC";
+
+  return new Date(m.date).toLocaleTimeString([], {
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function score(player) {
+  const values = player.sets.length
+    ? player.sets
+    : ["–"];
+
+  return `<div class="score">${
+    values.map(x => `<span>${escapeHTML(x)}</span>`).join("")
+  }</div>`;
+}
+
+function card(m) {
+  return `
+  <article class="match ${m.status === "live" ? "live" : ""}">
+    <div class="matchhead">
+      <span>${escapeHTML(m.round || "ATP singles")}</span>
+      <span class="status ${m.status === "completed" ? "final" : ""}">
+        ${escapeHTML(timeLabel(m))}
+      </span>
+    </div>
+
+    <div class="player ${m.a.winner ? "winner" : ""}">
+      <span class="name">${escapeHTML(m.a.name)}</span>
+      ${score(m.a)}
+    </div>
+
+    <div class="player ${m.b.winner ? "winner" : ""}">
+      <span class="name">${escapeHTML(m.b.name)}</span>
+      ${score(m.b)}
+    </div>
+
+    ${m.status === "live" ? `
+      <div class="game-score">
+        <span>Current game points</span>
+        <b>${m.game ? escapeHTML(m.game) : "Not provided by feed"}</b>
+      </div>
+    ` : ""}
+  </article>`;
+}
+
+function render() {
+  const order = {
+    live:0,
+    upcoming:1,
+    completed:2
+  };
+
+  matches.sort((a,b) =>
+    order[a.status] - order[b.status] ||
+    new Date(a.date || 0) - new Date(b.date || 0)
+  );
+
+  $("liveCount").textContent =
+    matches.filter(m => m.status === "live").length;
+
+  $("upcomingCount").textContent =
+    matches.filter(m => m.status === "upcoming").length;
+
+  $("finishedCount").textContent =
+    matches.filter(m => m.status === "completed").length;
+
+  if (!matches.length) {
+    $("matches").innerHTML =
+      '<div class="empty">No ATP matches listed for today.</div>';
+    return;
+  }
+
+  let html = "";
+  let lastEvent = "";
+
+  for (const m of matches) {
+    if (m.event !== lastEvent) {
+      lastEvent = m.event;
+      html += `<div class="tournament">${escapeHTML(lastEvent)}</div>`;
+    }
+    html += card(m);
+  }
+
+  $("matches").innerHTML = html;
+}
+
+async function load() {
+  if (loading) return;
+
+  loading = true;
+  $("refresh").disabled = true;
+  $("refresh").textContent = "Updating...";
+  $("error").textContent = "";
+  $("updated").textContent = "Checking scores...";
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
+
+  try {
+    const url =
+      API + "?dates=" +
+      todayKey().replaceAll("-", "") +
+      "&_=" + Date.now();
+
+    const response = await fetch(url, {
+      cache:"no-store",
+      signal:controller.signal,
+      headers:{
+        "Accept":"application/json",
+        "Cache-Control":"no-cache"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Score feed HTTP " + response.status);
+    }
+
+    const data = await response.json();
+
+    matches = parseMatches(data).filter(m =>
+      !m.date || dateKey(m.date) === todayKey()
+    );
+
+    render();
+
+    $("dateLabel").textContent =
+      new Date().toLocaleDateString([], {
+        weekday:"long",
+        day:"numeric",
+        month:"long",
+        year:"numeric"
+      });
+
+    lastUpdated = Date.now();
+
+    $("updated").textContent =
+      "Updated " +
+      new Date().toLocaleTimeString([], {
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit"
+      });
+
+  } catch (error) {
+    $("updated").textContent = "Score feed unavailable";
+
+    $("error").textContent =
+      error.name === "AbortError"
+      ? "The scoreboard took too long to respond."
+      : "Could not load scores: " + error.message;
+
+    if (!matches.length) {
+      $("matches").innerHTML =
+        '<div class="empty">Scores temporarily unavailable. Please try again.</div>';
+    }
+
+  } finally {
+    clearTimeout(timeout);
+    loading = false;
+    $("refresh").disabled = false;
+    $("refresh").textContent = "Refresh now ↻";
+  }
+}
+
+$("refresh").addEventListener("click", load);
+
+$("dateLabel").textContent =
+  new Date().toLocaleDateString([], {
+    weekday:"long",
+    day:"numeric",
+    month:"long",
+    year:"numeric"
+  });
+
+load();
+
+setInterval(() => {
+  if (document.visibilityState === "visible" && navigator.onLine) {
+    load();
+  }
+}, REFRESH_MS);
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" &&
+      Date.now() - lastUpdated > REFRESH_MS) {
+    load();
+  }
+});
+
+window.addEventListener("online", load);
+
+</script>
+</body>
+</html>
